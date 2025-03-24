@@ -5,7 +5,9 @@ exports.adminLogin = async (req, res) => {
 
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
-    if (email.trim() == '') {
+    try {
+
+          if (email.trim() == '') {
         return res.status(400).json({ success: false, message: 'All fields are mandatory' });
     }
 
@@ -23,6 +25,12 @@ exports.adminLogin = async (req, res) => {
         return res.status(200).json({ success: true, message: "Email validation successfull" });
 
     }
+
+    }catch (err) {
+        return res.status(500).json({success: true, message: "server error"})
+    }
+
+  
 
 }
 
