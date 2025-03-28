@@ -44,40 +44,42 @@ exports.dataCollection = async (req, res) => {
             return res.status(400).json({ success: false, message: "Please fill all the fields" });
         }
 
-        // Fetch courses matching the given COURSENAME
+        // Fetch course data
         const courseData = await courseDataModel.findOne({ COURSENAME });
-
 
         if (!courseData) {
             return res.status(404).json({ success: false, message: "Course not found" });
         }
 
-        // Find the index of the selected college in the array
+        // Check if the college exists in the course
         const collegeIndex = courseData.COLLEGES.indexOf(COLLEGE);
-        
-
         if (collegeIndex === -1) {
-            
             return res.status(404).json({ success: false, message: "College not found for this course" });
         }
-                
-        // Extract related data based on the found index
+
+        const specializations = Object.keys(courseData.SPECIFICATIONS[0][COLLEGE][0] || []);
+        const coursefees = Object.values(courseData.SPECIFICATIONS[0][COLLEGE][0] || [])
+
+        const location = courseData.LOCATIONS[0][COLLEGE] || "";
+
         const responseData = {
             COURSENAME: courseData.COURSENAME,
             COLLEGE: COLLEGE,
-            SPECIALISATION: courseData.SPECIFICATIONS[0][COLLEGE] || [],
-            FEESAMOUNT:courseData.FEESAMOUNT[collegeIndex],
-            LOCATION:courseData.LOCATIONS[collegeIndex]    
-            
-        }
+            FEESAMOUNT:coursefees,
+            SPECIALISATIONS: specializations,  // Returns an array of specializations
+            LOCATION: location
+        };
+
+        console.log(coursefees);
 
         return res.status(200).json({ success: true, responseData });
 
     } catch (err) {
-        console.error('Error fetching searched data:', err);
+        console.error("Error fetching searched data:", err);
         return res.status(500).json({ success: false, message: "Internal Server Error" });
     }
 };
+
 
 
 
