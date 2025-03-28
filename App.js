@@ -10,7 +10,7 @@ app.use(express.urlencoded({extended:true}))
 app.use(cors())
 app.use(express.json())
 app.use('/', commonRouter)
-
+    
 
 mongoose.connect('mongodb://localhost:27017/coursefinder')
 .then(()=> {

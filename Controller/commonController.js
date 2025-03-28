@@ -65,14 +65,12 @@ exports.dataCollection = async (req, res) => {
         const responseData = {
             COURSENAME: courseData.COURSENAME,
             COLLEGE: COLLEGE,
-            SPECIALISATION: courseData.SPECIFICATIONS,
+            SPECIALISATION: courseData.SPECIFICATIONS[0][COLLEGE] || [],
             FEESAMOUNT:courseData.FEESAMOUNT[collegeIndex],
-            LOCATION:courseData.LOCATIONS[collegeIndex]
-            
+            LOCATION:courseData.LOCATIONS[collegeIndex]    
             
         }
-        
-        
+
         return res.status(200).json({ success: true, responseData });
 
     } catch (err) {
@@ -89,7 +87,6 @@ exports.fetchData = async (req,res)=> {
 
         const result = await courseDataModel.find()        
         
-    
         return res.status(200).json({success:true, allData:result })
 
     }catch(err) {
