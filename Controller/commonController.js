@@ -57,21 +57,30 @@ exports.dataCollection = async (req, res) => {
             return res.status(404).json({ success: false, message: "College not found for this course" });
         }
 
-        const specializations = Object.keys(courseData.SPECIFICATIONS[0][COLLEGE][0] || []);
-        const coursefees = Object.values(courseData.SPECIFICATIONS[0][COLLEGE][0] || [])
+        // Fetching specialization details properly
+        const specializationData = courseData.SPECIFICATIONS[0][COLLEGE][0] || {};
+        const specializations = Object.keys(specializationData);
+        
+        // Extracting fee details properly
+        const feesDetails = specializations.map(spec => ({
+            specialization: spec,
+            admission_fee: specializationData[spec]["ADMISSION FEE"],
+            firstyear: specializationData[spec]["FIRSTYEAR"],
+            secondyear: specializationData[spec]["SECONDYEAR"],
+            thirdyear: specializationData[spec]["THIRDYEAR"],
+            total_fee: specializationData[spec]["TOTAL"]
+        }));
 
         const location = courseData.LOCATIONS[0][COLLEGE] || "";
 
         const responseData = {
             COURSENAME: courseData.COURSENAME,
             COLLEGE: COLLEGE,
-            FEESAMOUNT:coursefees,
-            SPECIALISATIONS: specializations,  // Returns an array of specializations
-            LOCATION: location
-        };
-
-        console.log(coursefees);
-
+            LOCATION: location,
+            SPECIALIZATIONS: specializations,  
+            FEES_DETAILS: feesDetails  // Properly structured fee details
+        };            
+        
         return res.status(200).json({ success: true, responseData });
 
     } catch (err) {
@@ -83,6 +92,7 @@ exports.dataCollection = async (req, res) => {
 
 
 
+
 exports.fetchData = async (req,res)=> {
     
     try {
@@ -90,7 +100,7 @@ exports.fetchData = async (req,res)=> {
         const result = await courseDataModel.find()        
         
         return res.status(200).json({success:true, allData:result })
-
+        
     }catch(err) {
         console.log('data fetching failed',err);
         return res.status(500).json({ success: false, message: "data fetching failed"});
