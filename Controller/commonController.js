@@ -103,8 +103,7 @@ exports.fetchData = async (req,res)=> {
         
     }catch(err) {
         console.log('data fetching failed',err);
-        return res.status(500).json({ success: false, message: "data fetching failed"});
-
+        return res.status(500).json({ success: false, message: "data fetching failed"})
         
     }
 
