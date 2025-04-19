@@ -27,14 +27,12 @@ exports.adminLogin = async (req, res) => {
     }
 
     }catch (err) {
-        return res.status(500).json({success: true, message: "server error"})
+        return res.status(500).json({success: false, message: "server error"})
     }
 
   
 
 }
-
-
 
 exports.dataCollection = async (req, res) => {
     const { COURSENAME, COLLEGE } = req.body;
@@ -88,9 +86,6 @@ exports.dataCollection = async (req, res) => {
         return res.status(500).json({ success: false, message: "Internal Server Error" });
     }
 };
-
-
-
 
 
 exports.fetchData = async (req,res)=> {
