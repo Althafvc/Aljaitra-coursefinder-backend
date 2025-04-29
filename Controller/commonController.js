@@ -28,9 +28,7 @@ exports.adminLogin = async (req, res) => {
 };
 
 exports.dataCollection = async (req, res) => {
-  const { COURSENAME, COLLEGE } = req.body;
-  console.log(req.body);
-  
+  const { COURSENAME, COLLEGE } = req.body;  
 
   try {
     if (!COURSENAME.trim() || !COLLEGE.trim()) {
@@ -68,6 +66,7 @@ exports.dataCollection = async (req, res) => {
       firstyear: specializationData[spec]["FIRSTYEAR"],
       secondyear: specializationData[spec]["SECONDYEAR"],
       thirdyear: specializationData[spec]["THIRDYEAR"],
+      fourthyear: specializationData[spec]["FOURTHYEAR"],
       total_fee: specializationData[spec]["TOTAL"],
     }));
 
