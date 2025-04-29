@@ -28,7 +28,7 @@ exports.adminLogin = async (req, res) => {
 };
 
 exports.dataCollection = async (req, res) => {
-  const { COURSENAME, COLLEGE } = req.body;  
+  const { COURSENAME, COLLEGE } = req.body;
 
   try {
     if (!COURSENAME.trim() || !COLLEGE.trim()) {
@@ -55,7 +55,7 @@ exports.dataCollection = async (req, res) => {
     }
 
     // Fetching specialization details properly
-    
+
     const specializationData = courseData.SPECIFICATIONS[0][COLLEGE][0] || {};
     const specializations = Object.keys(specializationData);
 
